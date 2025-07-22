@@ -7,10 +7,13 @@ pub fn build_facilio(
     optimize: std.builtin.OptimizeMode,
     use_openssl: bool,
 ) !*std.Build.Step.Compile {
-    const lib = b.addStaticLibrary(.{
+    const lib = b.addLibrary(.{
         .name = "facil.io",
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path(subdir ++ "/lib/facil/fio.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
     });
 
     // Generate flags

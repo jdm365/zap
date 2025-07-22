@@ -148,9 +148,11 @@ pub fn build(b: *std.Build) !void {
     // mustache tests
     const mustache_tests = b.addTest(.{
         .name = "mustache_tests",
-        .root_source_file = b.path("src/tests/test_mustache.zig"),
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/tests/test_mustache.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
     });
     mustache_tests.root_module.addImport("zap", zap_module);
 
@@ -160,9 +162,11 @@ pub fn build(b: *std.Build) !void {
     // http paramters (qyery, body) tests
     const httpparams_tests = b.addTest(.{
         .name = "http_params_tests",
-        .root_source_file = b.path("src/tests/test_http_params.zig"),
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/tests/test_http_params.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
     });
 
     httpparams_tests.root_module.addImport("zap", zap_module);
@@ -177,9 +181,11 @@ pub fn build(b: *std.Build) !void {
     // http paramters (qyery, body) tests
     const sendfile_tests = b.addTest(.{
         .name = "sendfile_tests",
-        .root_source_file = b.path("src/tests/test_sendfile.zig"),
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/tests/test_sendfile.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
     });
 
     sendfile_tests.root_module.addImport("zap", zap_module);
@@ -217,9 +223,11 @@ pub fn build(b: *std.Build) !void {
     //
     const docserver_exe = b.addExecutable(.{
         .name = "docserver",
-        .root_source_file = b.path("./tools/docserver.zig"),
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("./tools/docserver.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
     });
     docserver_exe.root_module.addImport("zap", zap_module);
     var docserver_step = b.step("docserver", "Build docserver");
@@ -241,9 +249,11 @@ pub fn build(b: *std.Build) !void {
     //
     const announceybot_exe = b.addExecutable(.{
         .name = "announceybot",
-        .root_source_file = b.path("./tools/announceybot.zig"),
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("./tools/announceybot.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
     });
     var announceybot_step = b.step("announceybot", "Build announceybot");
     const announceybot_build_step = b.addInstallArtifact(announceybot_exe, .{});
