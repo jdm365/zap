@@ -34,9 +34,11 @@ pub fn build(b: *std.Build) !void {
     // -- Docs
     const docs_obj = b.addObject(.{
         .name = "zap", // name doesn't seem to matter
-        .root_source_file = b.path("src/zap.zig"),
-        .target = target,
-        .optimize = .Debug,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/zap.zig"),
+            .target = target,
+            .optimize = .Debug,
+        }),
     });
     const install_docs = b.addInstallDirectory(.{
         .install_dir = .prefix,
@@ -97,9 +99,11 @@ pub fn build(b: *std.Build) !void {
 
         var example = b.addExecutable(.{
             .name = ex_name,
-            .root_source_file = b.path(ex_src),
-            .target = target,
-            .optimize = optimize,
+            .root_module = b.createModule(.{
+                .root_source_file = b.path(ex_src),
+                .target = target,
+                .optimize = optimize,
+            }),
         });
 
         example.root_module.addImport("zap", zap_module);
@@ -136,9 +140,11 @@ pub fn build(b: *std.Build) !void {
     //
     const auth_tests = b.addTest(.{
         .name = "auth_tests",
-        .root_source_file = b.path("src/tests/test_auth.zig"),
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/tests/test_auth.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
     });
     auth_tests.root_module.addImport("zap", zap_module);
 
